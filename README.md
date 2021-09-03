@@ -1,2 +1,2 @@
 # Yongin_job
- contest in dacon
+ contest in COMPAS
