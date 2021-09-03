@@ -1,0 +1,137 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting geocoder\n",
+      "  Downloading geocoder-1.38.1-py2.py3-none-any.whl (98 kB)\n",
+      "\u001b[K     |████████████████████████████████| 98 kB 1.0 MB/s eta 0:00:011\n",
+      "\u001b[?25hRequirement already satisfied: click in /opt/app-root/lib/python3.6/site-packages (from geocoder) (7.1.2)\n",
+      "Requirement already satisfied: requests in /opt/app-root/lib/python3.6/site-packages (from geocoder) (2.25.1)\n",
+      "Requirement already satisfied: future in /opt/app-root/lib/python3.6/site-packages (from geocoder) (0.17.1)\n",
+      "Requirement already satisfied: six in /opt/app-root/lib/python3.6/site-packages (from geocoder) (1.12.0)\n",
+      "Collecting ratelim\n",
+      "  Downloading ratelim-0.1.6-py2.py3-none-any.whl (4.0 kB)\n",
+      "Requirement already satisfied: decorator in /opt/app-root/lib/python3.6/site-packages (from ratelim->geocoder) (4.4.0)\n",
+      "Requirement already satisfied: certifi>=2017.4.17 in /opt/app-root/lib/python3.6/site-packages (from requests->geocoder) (2019.9.11)\n",
+      "Requirement already satisfied: idna<3,>=2.5 in /opt/app-root/lib/python3.6/site-packages (from requests->geocoder) (2.8)\n",
+      "Requirement already satisfied: urllib3<1.27,>=1.21.1 in /opt/app-root/lib/python3.6/site-packages (from requests->geocoder) (1.24.3)\n",
+      "Requirement already satisfied: chardet<5,>=3.0.2 in /opt/app-root/lib/python3.6/site-packages (from requests->geocoder) (3.0.4)\n",
+      "Installing collected packages: ratelim, geocoder\n",
+      "Successfully installed geocoder-1.38.1 ratelim-0.1.6\n",
+      "Note: you may need to restart the kernel to use updated packages.\n"
+     ]
+    }
+   ],
+   "source": [
+    "pip install geocoder"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import geocoder\n",
+    "import openpyxl\n",
+    "import time"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "None\n"
+     ]
+    },
+    {
+     "ename": "TypeError",
+     "evalue": "'NoneType' object is not subscriptable",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mTypeError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-4-0d22a138f3a1>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m     34\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     35\u001b[0m         \u001b[0;31m## 데이터 추가\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 36\u001b[0;31m         \u001b[0mlat_cell\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mvalue\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mgeo\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m0\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     37\u001b[0m         \u001b[0mlng_cell\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mvalue\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mgeo\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     38\u001b[0m         \u001b[0mrowCount\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mrowCount\u001b[0m \u001b[0;34m+\u001b[0m \u001b[0;36m1\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mTypeError\u001b[0m: 'NoneType' object is not subscriptable"
+     ]
+    }
+   ],
+   "source": [
+    "## 엘셀파일 열기\n",
+    "filename = \"도로명.xlsx\"\n",
+    "exelFile = openpyxl.load_workbook(filename)\n",
+    "\n",
+    "## 시트 설정\n",
+    "sheet = exelFile.worksheets[0]\n",
+    "\n",
+    "\n",
+    "## 데이터 가져오기\n",
+    "rowCount = 1\n",
+    "for row in sheet.rows:\t\n",
+    "\n",
+    "\t## geocoder 호출\n",
+    "\tg = geocoder.google(row[0].value)\n",
+    "\n",
+    "\t## 응답 실패 처리\n",
+    "\tif g.status == \"OVER_QUERY_LIMIT\":\n",
+    "\t\twhile True:\n",
+    "\t\t\tprint(\"Fail ===> Try Again\")\n",
+    "\t\t\ttime.sleep(0.5)\n",
+    "\t\t\tg = geocoder.google(row[0].value)\n",
+    "\t\t\tif g.status == \"OK\":\n",
+    "\t\t\t\tbreak\n",
+    "\n",
+    "\t## cell 설정 [ B1 ~ B* : 위도 / C1 ~ C* : 경도]\n",
+    "\tlat_cell = sheet.cell(row = rowCount, column = 2)\n",
+    "\tlng_cell = sheet.cell(row = rowCount, column = 3)\n",
+    "\n",
+    "\t## 위도, 경도 변환\n",
+    "\tgeo = g.latlng\n",
+    "\n",
+    "\t## 변환 확인\n",
+    "\tprint(geo)\n",
+    "\n",
+    "\t## 데이터 추가\n",
+    "\tlat_cell.value = geo[0]\n",
+    "\tlng_cell.value = geo[1]\n",
+    "\trowCount = rowCount + 1\n",
+    "\n",
+    "## 데이터 저장\n",
+    "exelFile.save(\"address.xlsx\")"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.9"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
